@@ -1,11 +1,11 @@
 package com.mhendrif.mvvmrecipeapp.repository
 
 import com.mhendrif.mvvmrecipeapp.domain.model.Recipe
-import com.mhendrif.mvvmrecipeapp.network.RetrofitService
+import com.mhendrif.mvvmrecipeapp.network.RecipeService
 import com.mhendrif.mvvmrecipeapp.network.model.RecipeDtoMapper
 
 class RecipeRepositoryImpl(
-    private val recipeService: RetrofitService,
+    private val recipeService: RecipeService,
     private val mapper: RecipeDtoMapper,
 ): RecipeRepository {
 

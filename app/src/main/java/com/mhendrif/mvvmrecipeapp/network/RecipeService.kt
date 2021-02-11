@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-interface RetrofitService {
+interface RecipeService {
     @GET("search")
     suspend fun search(
         @Header("Authorization") token: String,
