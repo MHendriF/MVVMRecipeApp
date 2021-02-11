@@ -1,4 +1,4 @@
-package com.mhendrif.mvvmrecipeapp
+package com.mhendrif.mvvmrecipeapp.presentation.ui.recipe
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecipeFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

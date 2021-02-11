@@ -1,4 +1,4 @@
-package com.mhendrif.mvvmrecipeapp
+package com.mhendrif.mvvmrecipeapp.presentation.ui.recipe_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,9 +15,20 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.mhendrif.mvvmrecipeapp.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecipeListFragment : Fragment() {
+
+    val viewModel: RecipeListViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        println("RecipeListFragment: ${viewModel} ")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
