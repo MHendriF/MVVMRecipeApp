@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
@@ -20,8 +21,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.mhendrif.mvvmrecipeapp.R
+import com.mhendrif.mvvmrecipeapp.presentation.components.RecipeCard
 import com.mhendrif.mvvmrecipeapp.util.TAG
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @AndroidEntryPoint
 class RecipeListFragment : Fragment() {
@@ -33,6 +36,7 @@ class RecipeListFragment : Fragment() {
         println("RecipeListFragment: $viewModel ")
     }
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,20 +46,11 @@ class RecipeListFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 val recipes = viewModel.recipes.value
-                for (recipe in recipes) {
-                    Log.d(TAG, "onCreateView: ${recipe.title}")
-                }
-
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = "RecipeList",
-                        style = TextStyle(fontSize = TextUnit.Companion.Sp(21))
-                    )
-                    Spacer(modifier = Modifier.padding(10.dp))
-                    Button(onClick = { findNavController().navigate(R.id.viewRecipe) }) {
-                        Text(text = "T0 Recipe Fragment")
+                LazyColumn {
+                    itemsIndexed(items = recipes)
+                    { index, recipe ->
+                    RecipeCard(recipe = recipe, onClick = { /*TODO*/ })
                     }
-
                 }
             }
         }
