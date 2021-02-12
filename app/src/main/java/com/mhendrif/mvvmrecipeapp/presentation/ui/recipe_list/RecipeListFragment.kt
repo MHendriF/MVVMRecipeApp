@@ -1,28 +1,27 @@
 package com.mhendrif.mvvmrecipeapp.presentation.ui.recipe_list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
-import com.mhendrif.mvvmrecipeapp.R
 import com.mhendrif.mvvmrecipeapp.presentation.components.RecipeCard
-import com.mhendrif.mvvmrecipeapp.util.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -30,11 +29,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class RecipeListFragment : Fragment() {
 
     private val viewModel: RecipeListViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        println("RecipeListFragment: $viewModel ")
-    }
 
     @ExperimentalCoroutinesApi
     override fun onCreateView(
@@ -46,10 +40,52 @@ class RecipeListFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 val recipes = viewModel.recipes.value
-                LazyColumn {
-                    itemsIndexed(items = recipes)
-                    { index, recipe ->
-                    RecipeCard(recipe = recipe, onClick = { /*TODO*/ })
+                val query = viewModel.query.value
+
+                Column {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        color = MaterialTheme.colors.primary,
+                        elevation = 8.dp,
+                    ) {
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            TextField(
+                                modifier = Modifier
+                                    .fillMaxWidth(.9f)
+                                    .padding(8.dp),
+                                value = query,
+                                onValueChange = {
+                                    viewModel.onQueryChanged(it)
+                                },
+                                label = {
+                                    Text(text = "Search")
+                                },
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Text,
+                                    imeAction = ImeAction.Done,
+                                ),
+                                leadingIcon = {
+                                    Icon(Icons.Filled.Search)
+                                },
+                                onImeActionPerformed = { action, softKeyboardController ->
+                                    if (action == ImeAction.Done) {
+                                        viewModel.newSearch(query)
+                                        softKeyboardController?.hideSoftwareKeyboard()
+                                    }
+                                },
+                                textStyle = TextStyle(color = MaterialTheme.colors.onSurface),
+                                backgroundColor = MaterialTheme.colors.surface
+                            )
+                        }
+                    }
+
+                    LazyColumn {
+                        itemsIndexed(
+                            items = recipes
+                        ) { index, recipe ->
+                            RecipeCard(recipe = recipe, onClick = {})
+                        }
                     }
                 }
             }
