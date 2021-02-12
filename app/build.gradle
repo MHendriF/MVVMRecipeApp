@@ -87,4 +87,8 @@ dependencies {
     def hilt_lifecycle = "1.0.0-alpha03"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_lifecycle"
     kapt "androidx.hilt:hilt-compiler:$hilt_lifecycle"
+
+    def glide = "4.11.0"
+    implementation "com.github.bumptech.glide:glide:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
 }
