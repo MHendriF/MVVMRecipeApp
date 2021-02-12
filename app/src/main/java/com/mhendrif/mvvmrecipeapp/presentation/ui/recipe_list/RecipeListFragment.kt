@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.ScrollableRow
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -83,16 +85,23 @@ class RecipeListFragment : Fragment() {
                                     backgroundColor = MaterialTheme.colors.surface
                                 )
                             }
+
+                            val scrollState = rememberScrollState()
                             ScrollableRow(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(start = 8.dp, bottom = 8.dp)
+                                    .padding(start = 8.dp, bottom = 8.dp),
+                                scrollState = scrollState
                             ) {
+                                // restore scroll position after rotation
+                                scrollState.scrollTo(viewModel.categoryScrollPosition)
+
                                 for (category in getAllFoodCategories()) {
                                     FoodCategoryChip(
                                         category = category.value,
                                         isSelected = selectedCategory == category,
                                         onSelectedCategoryChanged = {
+                                            viewModel.onChangeCategoryScrollPosition(scrollState.value)
                                             viewModel.onSelectedCategoryChanged(it)
                                         },
                                         onExecuteSearch = viewModel::newSearch
