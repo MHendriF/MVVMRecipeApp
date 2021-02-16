@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.mhendrif.mvvmrecipeapp.presentation.components.CircularIndeterminateProgressBar
-import com.mhendrif.mvvmrecipeapp.presentation.components.PulsingDemo
-import com.mhendrif.mvvmrecipeapp.presentation.components.RecipeCard
-import com.mhendrif.mvvmrecipeapp.presentation.components.SearchAppBar
+import com.mhendrif.mvvmrecipeapp.presentation.components.*
+import com.mhendrif.mvvmrecipeapp.presentation.components.HeartAnimationDefinition.HeartButtonState.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -50,7 +51,22 @@ class RecipeListFragment : Fragment() {
                             onChangeScrollPosition = viewModel::onChangeCategoryScrollPosition,
                     )
 
-                    PulsingDemo()
+                    val state = remember { mutableStateOf(IDLE) }
+                    Row(
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp),
+                            horizontalArrangement = Arrangement.Center
+                    ) {
+                        AnimatedHeartButton(
+                                modifier = Modifier,
+                                buttonState = state,
+                                onToggle = {
+                                    state.value = if (state.value == IDLE) ACTIVE else IDLE
+                                },
+                        )
+                    }
+//                    PulsingDemo()
 
 //                    Box(modifier = Modifier.fillMaxSize()) {
 //                        LazyColumn {
