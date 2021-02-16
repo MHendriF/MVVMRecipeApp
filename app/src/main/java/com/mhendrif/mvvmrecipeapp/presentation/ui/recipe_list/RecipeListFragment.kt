@@ -4,26 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.ScrollableRow
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mhendrif.mvvmrecipeapp.presentation.components.CircularIndeterminateProgressBar
-import com.mhendrif.mvvmrecipeapp.presentation.components.FoodCategoryChip
+import com.mhendrif.mvvmrecipeapp.presentation.components.PulsingDemo
 import com.mhendrif.mvvmrecipeapp.presentation.components.RecipeCard
 import com.mhendrif.mvvmrecipeapp.presentation.components.SearchAppBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,16 +50,18 @@ class RecipeListFragment : Fragment() {
                             onChangeScrollPosition = viewModel::onChangeCategoryScrollPosition,
                     )
 
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        LazyColumn {
-                            itemsIndexed(
-                                    items = recipes
-                            ) { index, recipe ->
-                                RecipeCard(recipe = recipe, onClick = {})
-                            }
-                        }
-                        CircularIndeterminateProgressBar(isDisplayed = loading)
-                    }
+                    PulsingDemo()
+
+//                    Box(modifier = Modifier.fillMaxSize()) {
+//                        LazyColumn {
+//                            itemsIndexed(
+//                                    items = recipes
+//                            ) { index, recipe ->
+//                                RecipeCard(recipe = recipe, onClick = {})
+//                            }
+//                        }
+//                        CircularIndeterminateProgressBar(isDisplayed = loading, verticalBias = 0.3f)
+//                    }
                 }
             }
         }
