@@ -6,15 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mhendrif.mvvmrecipeapp.presentation.components.*
-import com.mhendrif.mvvmrecipeapp.presentation.components.HeartAnimationDefinition.HeartButtonState.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -53,12 +50,12 @@ class RecipeListFragment : Fragment() {
 
                     Box(modifier = Modifier.fillMaxSize()) {
                         if (loading){
-                            LoadingRecipeListShimmer(imageHeight = 250.dp,)
+                            LoadingRecipeListShimmer(imageHeight = 250.dp)
                         }else{
                             LazyColumn {
                                 itemsIndexed(
                                         items = recipes
-                                ) { index, recipe ->
+                                ) { _, recipe ->
                                     RecipeCard(recipe = recipe, onClick = {})
                                 }
                             }
