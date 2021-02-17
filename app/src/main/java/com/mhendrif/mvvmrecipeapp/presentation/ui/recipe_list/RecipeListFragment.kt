@@ -51,33 +51,20 @@ class RecipeListFragment : Fragment() {
                             onChangeScrollPosition = viewModel::onChangeCategoryScrollPosition,
                     )
 
-                    val state = remember { mutableStateOf(IDLE) }
-                    Row(
-                            modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(200.dp),
-                            horizontalArrangement = Arrangement.Center
-                    ) {
-                        AnimatedHeartButton(
-                                modifier = Modifier,
-                                buttonState = state,
-                                onToggle = {
-                                    state.value = if (state.value == IDLE) ACTIVE else IDLE
-                                },
-                        )
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        if (loading){
+                            LoadingRecipeListShimmer(imageHeight = 250.dp,)
+                        }else{
+                            LazyColumn {
+                                itemsIndexed(
+                                        items = recipes
+                                ) { index, recipe ->
+                                    RecipeCard(recipe = recipe, onClick = {})
+                                }
+                            }
+                        }
+                        CircularIndeterminateProgressBar(isDisplayed = loading, verticalBias = 0.3f)
                     }
-//                    PulsingDemo()
-
-//                    Box(modifier = Modifier.fillMaxSize()) {
-//                        LazyColumn {
-//                            itemsIndexed(
-//                                    items = recipes
-//                            ) { index, recipe ->
-//                                RecipeCard(recipe = recipe, onClick = {})
-//                            }
-//                        }
-//                        CircularIndeterminateProgressBar(isDisplayed = loading, verticalBias = 0.3f)
-//                    }
                 }
             }
         }
