@@ -1,8 +1,6 @@
 package com.mhendrif.mvvmrecipeapp.presentation.theme
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
@@ -41,6 +39,8 @@ fun AppTheme(
 ) {
     MaterialTheme(
             colors = if (darkTheme) DarkThemeColors else LightThemeColors,
+            typography = QuickSandTypography,
+            shapes = AppShapes
     ) {
         content()
     }
