@@ -7,7 +7,12 @@ import android.view.ViewGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalanceWallet
+import androidx.compose.material.icons.filled.BrokenImage
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
@@ -45,25 +50,31 @@ class RecipeListFragment : Fragment() {
                     val categoryScrollPosition = viewModel.categoryScrollPosition
                     val loading = viewModel.loading.value
 
-                    Column {
-                        SearchAppBar(
-                                query = query,
-                                onQueryChanged = viewModel::onQueryChanged,
-                                onExecuteSearch = viewModel::newSearch,
-                                categories = getAllFoodCategories(),
-                                selectedCategory = selectedCategory,
-                                onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged,
-                                scrollPosition = categoryScrollPosition,
-                                onChangeScrollPosition = viewModel::onChangeCategoryScrollPosition,
-                                onToggleTheme = {
-                                    application.toggleLightTheme()
-                                }
-                        )
-
+                    Scaffold(
+                            topBar = {
+                                SearchAppBar(
+                                        query = query,
+                                        onQueryChanged = viewModel::onQueryChanged,
+                                        onExecuteSearch = viewModel::newSearch,
+                                        categories = getAllFoodCategories(),
+                                        selectedCategory = selectedCategory,
+                                        onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged,
+                                        scrollPosition = categoryScrollPosition,
+                                        onChangeScrollPosition = viewModel::onChangeCategoryScrollPosition,
+                                        onToggleTheme = {
+                                            application.toggleLightTheme()
+                                        }
+                                )
+                            },
+                            bottomBar = {
+                                MyBottomBar()
+                            },
+                            drawerContent = {
+                                MyDrawer()
+                            }
+                    ) {
                         Box(
-                            modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(color = MaterialTheme.colors.background)
+                            modifier = Modifier.background(color = MaterialTheme.colors.background)
                         ) {
                             if (loading) {
                                 LoadingRecipeListShimmer(imageHeight = 250.dp)
@@ -82,5 +93,40 @@ class RecipeListFragment : Fragment() {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MyBottomBar(){
+    BottomNavigation(
+            elevation = 12.dp
+    ) {
+        BottomNavigationItem(
+                icon = { Icon(Icons.Default.BrokenImage) },
+                selected = false,
+                onClick = {}
+        )
+        BottomNavigationItem(
+                icon = { Icon(Icons.Default.Search) },
+                selected = true,
+                onClick = {}
+        )
+        BottomNavigationItem(
+                icon = { Icon(Icons.Default.AccountBalanceWallet) },
+                selected = false,
+                onClick = {}
+        )
+    }
+}
+
+
+@Composable
+fun MyDrawer(){
+    Column() {
+        Text(text = "Item1")
+        Text(text = "Item2")
+        Text(text = "Item3")
+        Text(text = "Item4")
+        Text(text = "Item5")
     }
 }
