@@ -15,6 +15,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
@@ -22,27 +23,28 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RecipeFragment: Fragment() {
+class RecipeFragment : Fragment() {
 
-    private var recipeId: MutableState<Int> = mutableStateOf(-1)
+    private val viewModel: RecipeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        CoroutineScope(Main).launch {
-            delay(1000)
-            arguments?.getInt("recipeId")?.let { rId ->
-                recipeId.value = rId
-            }
+        arguments?.getInt("recipeId")?.let { rId ->
+            viewModel.onTriggerEvent(RecipeEvent.GetRecipeEvent(rId))
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return ComposeView(requireContext()).apply {
             setContent {
+
+                val loading = viewModel.loading.value
+                val recipe = viewModel.recipe.value
+
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = if (recipeId.value != -1) "Selected RecipeId: ${recipeId.value}"
-                                else "Loading .....",
+                        text = recipe?.let { recipe -> "Selected recipeId: ${recipe.title}" }
+                                ?: "LOADING...",
                         style = TextStyle(fontSize = TextUnit.Sp(21))
                     )
                 }
