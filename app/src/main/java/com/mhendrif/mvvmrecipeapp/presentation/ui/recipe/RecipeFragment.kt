@@ -15,12 +15,14 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mhendrif.mvvmrecipeapp.BaseApplication
 import com.mhendrif.mvvmrecipeapp.presentation.components.CircularIndeterminateProgressBar
 import com.mhendrif.mvvmrecipeapp.presentation.components.DefaultSnackbar
+import com.mhendrif.mvvmrecipeapp.presentation.components.LoadingRecipeShimmer
 import com.mhendrif.mvvmrecipeapp.presentation.components.RecipeView
 import com.mhendrif.mvvmrecipeapp.presentation.components.util.SnackbarController
 import com.mhendrif.mvvmrecipeapp.presentation.theme.AppTheme
@@ -59,7 +61,8 @@ class RecipeFragment : Fragment() {
                         scaffoldState.snackbarHostState
                     }) {
                         Box(modifier = Modifier.fillMaxSize()) {
-                            if (loading && recipe == null) Text(text = "LOADING...")
+                            if (loading && recipe == null) 
+                                LoadingRecipeShimmer(imageHeight = IMAGE_HEIGHT.dp)
                             else recipe?.let {
                                 if(it.id == 1) { // create a fake error
                                     snackbarController.getScope().launch {
