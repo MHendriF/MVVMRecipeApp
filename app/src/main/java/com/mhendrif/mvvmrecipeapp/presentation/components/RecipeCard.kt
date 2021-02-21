@@ -11,10 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import com.mhendrif.mvvmrecipeapp.domain.model.Recipe
-import com.mhendrif.mvvmrecipeapp.R
 import com.mhendrif.mvvmrecipeapp.util.DEFAULT_RECIPE_IMAGE
 import com.mhendrif.mvvmrecipeapp.util.loadPicture
 import kotlinx.coroutines.ExperimentalCoroutinesApi

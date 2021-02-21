@@ -65,9 +65,9 @@ fun RecipeView(
                     val updated = recipe.dateUpdated
                     Text(
                             text = if (updated != null) {
-                                "Updated ${updated} by ${publisher}"
+                                "Updated $updated by $publisher"
                             } else {
-                                "By ${publisher}"
+                                "By $publisher"
                             },
                             modifier = Modifier
                                     .fillMaxWidth()

@@ -23,7 +23,7 @@ class RecipeViewModel
 @ViewModelInject
 constructor(
         private val recipeRepository: RecipeRepository,
-        private @Named("auth_token") val token: String,
+        @Named("auth_token") private val token: String,
         @Assisted private val state: SavedStateHandle,
 ) : ViewModel() {
     val recipe: MutableState<Recipe?> = mutableStateOf(null)
