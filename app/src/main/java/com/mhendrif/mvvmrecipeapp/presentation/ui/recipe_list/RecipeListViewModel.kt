@@ -40,10 +40,20 @@ constructor(
     private var recipeListScrollPosition = 0
 
     init {
-        savedStateHandle.get<Int>(STATE_KEY_PAGE)?.let { p -> setPage(p) }
-        savedStateHandle.get<String>(STATE_KEY_QUERY)?.let { q -> setQuery(q) }
-        savedStateHandle.get<FoodCategory>(STATE_KEY_SELECTED_CATEGORY)?.let { c -> setSelectedCategory(c) }
-        savedStateHandle.get<Int>(STATE_KEY_LIST_POSITION)?.let { p -> setListPosition(p) }
+        savedStateHandle.get<Int>(STATE_KEY_PAGE)?.let { p ->
+            Log.d(TAG, "restoring page: $p")
+            setPage(p)
+        }
+        savedStateHandle.get<String>(STATE_KEY_QUERY)?.let { q ->
+            setQuery(q)
+        }
+        savedStateHandle.get<FoodCategory>(STATE_KEY_SELECTED_CATEGORY)?.let { c ->
+            setSelectedCategory(c)
+        }
+        savedStateHandle.get<Int>(STATE_KEY_LIST_POSITION)?.let { p ->
+            Log.d(TAG, "restoring scroll position: $p")
+            setListPosition(p)
+        }
 
         if (recipeListScrollPosition != 0) {
             onTriggerEvent(RestoreStateEvent)
@@ -161,10 +171,9 @@ constructor(
 
     private fun resetSearchState() {
         recipes.value = listOf()
-        page.value = 1
+        setPage(1)
         onChangeRecipeScrollPosition(0)
-        if (selectedCategory.value?.value == query.value)
-            clearSelectedCategory()
+        if (selectedCategory.value?.value == query.value) clearSelectedCategory()
     }
 
     private fun clearSelectedCategory() {
